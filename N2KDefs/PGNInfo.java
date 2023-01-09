@@ -1,45 +1,33 @@
-package N2KDefs;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
 
-
+@JsonIgnoreProperties({"Type", "Missing",
+        "RepeatingFieldSet1Size", "RepeatingFieldSet1StartField", "RepeatingFieldSet1CountField",
+        "RepeatingFieldSet2Size", "RepeatingFieldSet2StartField", "RepeatingFieldSet2CountField"
+})
 public class PGNInfo 
 {
-  @XmlElement
     public int PGN;
-  @XmlElement
     public String Id;
-  @XmlElement
     public String Description;
-  @XmlElement
     public boolean Complete;
-  @XmlElement
     public int Length;
-  @XmlElement
     public int RepeatingFields;
-  @XmlElement(name="Fields")
-  public PGNFields pgnFields;
 
-  public void setFields(PGNFields fields)
-  {
-    this.pgnFields = fields;
-  }
-  public PGNFields getFields()
-  {
-    return(this.pgnFields);
-  }
+    @JsonProperty("Fields")
+    public List<PGNField> pgnFields;
+
 
   public String toString()
   {
     int size = 0;
-    if (pgnFields != null)
-    {
-      List<PGNField> fld = pgnFields.pgnField;
-      if (fld != null)
-      {
+    if (pgnFields != null) {
+      List<PGNField> fld = pgnFields;
         size = fld.size();
-      }
     }
     return("PGN:" + PGN + " Id:" + Id + " Description:" + Description + 
            " Complete:" + Complete + " Length:" + Length + 

@@ -1,11 +1,12 @@
-package N2KDefs;
-import javax.xml.bind.annotation.XmlAttribute;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PGNEnumPair
 {
-  @XmlAttribute(name = "Value")
+  @JsonProperty("value")
   public int Value;
-  @XmlAttribute(name = "Name")
+  @JsonProperty("name")
   public String Name;
 }
 

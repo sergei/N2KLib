@@ -12,14 +12,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package N2KLib;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
 import java.util.Arrays;
 
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 
-import N2KDefs.PGNEnumPair;
-import Utils.Trace;
-import Utils.Utils;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.*;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Trace;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Utils;
+
 /**
  * An N2KPacket is made up of N2KFields. 
  * <br><br>
@@ -495,7 +496,7 @@ public class N2KField
             if (fieldDef.pgnField.EnumValues != null)
             {
               String enumVal = null;
-              for (PGNEnumPair enumPair : fieldDef.pgnField.EnumValues.EnumPair)
+              for (PGNEnumPair enumPair : fieldDef.pgnField.EnumValues)
               {
                 if (intval == enumPair.Value)
                 {
@@ -557,7 +558,7 @@ public class N2KField
 
           break;
         case ENCODED:
-          res.append(DatatypeConverter.printHexBinary(binval));
+//          res.append(DatatypeConverter.printHexBinary(binval));
           break;
         default:
           res.append("UNSUPPORTED");

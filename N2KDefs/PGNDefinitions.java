@@ -1,21 +1,15 @@
-package N2KDefs;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs;
 
 
-@XmlRootElement(name="PGNDefinitions")
-  public class PGNDefinitions 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
+@JsonIgnoreProperties({ "Comment", "CreatorCode",  "License",  "Version"})
+  public class PGNDefinitions
 {
-  @XmlElement
-    public PGNs pgns;
-
-  public void setPGNs(PGNs pgns)
-  {
-    this.pgns = pgns;
-  }
-  public PGNs getPGNs()
-  {
-    return(pgns);
-  }
+    @JsonProperty("PGNs")
+    public List<PGNInfo> pgnInfo;
 }
 

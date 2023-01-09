@@ -12,10 +12,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package N2KLib;
-import N2KDefs.PGNField;
-import N2KDefs.PGNInfo;
-import Utils.Trace;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNField;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNInfo;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Trace;
+
 /**
  * Contains definitions of N2K fields
  * @author PhilMay
@@ -131,7 +132,7 @@ public class N2KFieldDef
       else
       {
         // Unspecified types are handled as byte arrays
-      	Trace.alert("Packet " + pgnInfo.Id + " field " + fld.Id + 
+      	Trace.alert("Packet " + pgnInfo.Id + " field " + fld.Id +
       			        " handling unspecified non-integer thype as a bitfield");
         fld.Type = FD_BITFIELD;
       }

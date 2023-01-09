@@ -12,13 +12,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package Utils;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 
-import javax.xml.bind.DatatypeConverter;
+import timber.log.Timber;
 
 public final class Trace
 {
@@ -31,32 +31,12 @@ public final class Trace
 
   static private void prtln(String txt)
   {
-    String ln = String.format("%014d %s\n", System.currentTimeMillis(), txt);   
-    prtlnint(ln);
+    Timber.d("%014d %s", System.currentTimeMillis(), txt);
   }
 
   static private void prtln(String txt, String txt2)
   {
-    String ln = String.format("%014d %s: %s\n", System.currentTimeMillis(), txt, txt2);   
-    prtlnint(ln);
-  }
-
-  static private void prtlnint(String ln)
-  {
-    System.out.printf(ln);
-    try
-    {
-      if (trcFile == null)
-      {
-      	
-        trcFile = new BufferedOutputStream(new FileOutputStream(Utils.getHomePath() + "tracefile.txt"));
-      }
-      trcFile.write(ln.getBytes());
-    }
-    catch (Exception ex)
-    {
-      System.out.printf("Failed to write to trace file " + ex.getStackTrace());
-    }
+    Timber.d("%014d %s: %s\n", System.currentTimeMillis(), txt, txt2);
   }
 
   static public void debug(String txt)
@@ -103,9 +83,12 @@ public final class Trace
   static private String hexdata(String txt, byte[] bytes, int off, int length)
   {
     byte[] rcvdata = Arrays.copyOfRange(bytes, off, off + length);
-    String printit = DatatypeConverter.printHexBinary(rcvdata);
-    prtln(txt, printit);
-    return(printit);
+    StringBuffer sb = new StringBuffer();
+    for( int i = 0; i< length; i++){
+      sb.append(String.format("%02X ", bytes[i]));
+    }
+    prtln(txt, sb.toString());
+    return(sb.toString());
   }
 
   static public void hexdbg(String txt, byte[] bytes, int off, int length)

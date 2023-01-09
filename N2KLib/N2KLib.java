@@ -12,22 +12,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package N2KLib;
-import java.io.File;
+package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNDefinitions;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNField;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Trace;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Vector;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import N2KDefs.PGNDefinitions;
-import N2KDefs.PGNField;
-import N2KDefs.PGNInfo;
-import N2KDefs.PGNs;
-import Utils.Trace;
-import Utils.Utils;
 /**
  * A Java NMEA 2000 library.  This library takes an XML file that defines the format of the N2K messages
  * and provides functions for constructing messages either from input data or from a raw binary stream.
@@ -94,40 +92,31 @@ public class N2KLib implements Runnable
   Vector<N2KPacket> packets = new Vector<N2KPacket>();
   Vector<N2KPacketDef> dupDefs = new Vector<N2KPacketDef>();
 
-  public static PGNs pgns;
   public static List<PGNInfo> pgnInfo;
   long startTime = System.currentTimeMillis();
 
   // We construct a map of field definitions indexed by pgn so we can
   // encode/decode efficiently
-  public static MultivaluedHashMap<Integer, N2KPacketDef> pgnDefs= new MultivaluedHashMap<>(); 
+  public static MultivaluedHashMap<Integer, N2KPacketDef> pgnDefs= new MultivaluedHashMap<>();
 
   /**
    * The library is constructed by providing a communications object that implements 
    * the N2KTransport interface. 
    * @param transport The communication object
    */
-  public N2KLib(N2KTransport transport)
+  public N2KLib(N2KTransport transport, InputStream pgnStream)
   {
     this.transport = transport;
 
     // Read in PGN definitions
     try
     {
-      File file = Utils.copyResourceToHome("pgns.xml");
-      
-      JAXBContext jaxbContext = JAXBContext.newInstance(PGNDefinitions.class);
-
-      Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-      PGNDefinitions pgndefs = (PGNDefinitions)jaxbUnmarshaller.unmarshal(file);
-      pgns = pgndefs.pgns;
-      pgnInfo = pgns.pgnInfo;
+      ObjectMapper mapper = new ObjectMapper();
+      PGNDefinitions pgndefs = mapper.readValue(pgnStream, PGNDefinitions.class);
+      pgnInfo = pgndefs.pgnInfo;
       Trace.alert("Pgninfo size is " + pgnInfo.size());
-
-    }
-    catch (JAXBException ex)
-    {
-      Trace.stack(ex,  "Loading PGNs");
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
     // Now convert the field definitions into something more usable.  We produce a 
@@ -136,7 +125,7 @@ public class N2KLib implements Runnable
     for (PGNInfo info : pgnInfo)
     {
       //Trace.debug("Processing PGN:" + info.toString());
-      if ((info.pgnFields == null) || (info.pgnFields.pgnField == null))
+      if (info.pgnFields == null)
       {
         Trace.normal("Pgn " + info.PGN + " has no fields");
         N2KPacketDef fldDefs = new N2KPacketDef(0, info);
@@ -145,7 +134,7 @@ public class N2KLib implements Runnable
       }
       else
       {
-        List<PGNField> flds = info.pgnFields.pgnField;
+        List<PGNField> flds = info.pgnFields;
         int numFieldDefs = flds.size();
         N2KPacketDef fldDefs = new N2KPacketDef(numFieldDefs, info);
         pgnDefs.add(new Integer(info.PGN), fldDefs);
