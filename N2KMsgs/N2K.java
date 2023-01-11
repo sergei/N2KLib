@@ -8451,4 +8451,61 @@ public class N2K
   {
   }
 
+  /*
+    Proprietary PGN 130900 the AWA and AWS calibration
+    Field 1: MfgCode 11 bits
+    Field 2: reserved 2 bits. Must be set all 1
+    Field 3: Industry code 3 bits. Use Marine=4
+    Field 4: AWAOffset, 2 bytes 0xfffe - restore default 0xFFFF - leave unchanged
+    Field 5: AWSMultiplier, 2 bytes  0xfffe - restore default 0xFFFF - leave unchanged
+ */
+  public final static int SciWindCalibration_pgn = 130900;
+  public final static class SciWindCalibration {
+    // SCI
+    public final static int manufacturerCode = 0;
+    public final static int reserved = 1;
+    // Marine Industry
+    public final static int industryCode = 2;
+    public final static int AWAOffset = 3;
+    public final static int AWSMultiplier = 4;
+  }
+
+/*
+    Proprietary PGN 130901 the boat speed calibration
+    Field 1: MfgCode 11 bits
+    Field 2: reserved 2 bits. Must be set all 1
+    Field 3: Industry code 3 bits. Use Marine=4
+    Field 4: SOWMultiplier, 2 bytes  0xfffe - restore default 0xFFFF - leave unchanged
+ */
+public final static int SciWaterCalibration_pgn = 130901;
+  public final static class SciWaterCalibration {
+    // SCI
+    public final static int manufacturerCode = 0;
+    public final static int reserved = 1;
+    // Marine Industry
+    public final static int industryCode = 2;
+    public final static int SOWMultiplier = 3;
+  }
+
+  /*
+    Proprietary PGN 130902 IMU calibration
+    Field 1: MfgCode 11 bits
+    Field 2: reserved 2 bits. Must be set all 1
+    Field 3: Industry code 3 bits. Use Marine=4
+    Field 4: HeadingGOffset, 2 bytes 0xfffe - restore default 0xFFFF - leave unchanged
+    Field 5: PitchOffset, 2 bytes 0xfffe - restore default 0xFFFF - leave unchanged
+    Field 6: RollOffset, 2 bytes 0xfffe - restore default 0xFFFF - leave unchanged
+ */
+  public final static int SciImuCalibration_pgn = 130900;
+  public final static class SciImuCalibration {
+    // SCI
+    public final static int manufacturerCode = 0;
+    public final static int reserved = 1;
+    // Marine Industry
+    public final static int industryCode = 2;
+    public final static int HeadingGOffset = 3;
+    public final static int PitchOffset = 4;
+    public final static int RollOffset = 5;
+  }
+
 }
