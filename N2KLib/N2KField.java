@@ -46,6 +46,19 @@ public class N2KField
   private boolean stringset;
   private byte[]  binval;
   private boolean binset;
+  private int bitLength = -1;
+
+  // Use for fields with variable length
+  public void setBitLength(int bitLength) {
+    this.bitLength = bitLength;
+  }
+
+  public int getBitLength() {
+    if( fieldDef.bitLength == 0 )  // Variable size. Use value set by user
+      return bitLength;
+    else
+      return fieldDef.bitLength;
+  }
 
   /**
    * The field availability values.  Use getAvailability and setNotAvailable/setReserved/setOutOfRange
@@ -244,7 +257,7 @@ public class N2KField
       throw new N2KTypeException("Invalid set of integer for non integer field " + fieldDef.id + " in " + fieldDef.pgnInfo.Id);
     }
   }
-  
+
   /**
    * Used to set an long value in an N2K field.  You should use setDecimal if the integer  
    * has a resolution specified in the XML file.

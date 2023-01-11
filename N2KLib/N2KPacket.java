@@ -157,6 +157,15 @@ public class N2KPacket
           }
         }
 
+        if( fldDefs.pgnInfo.RepeatingFieldSetSize > 0 ){
+          try {
+            fldDefs.numRepFields = fields[fldDefs.pgnInfo.RepeatingFieldSetSize].getInt();
+          } catch (N2KTypeException e) {
+            Trace.alert("!!! INVALID REP count " + pgn);
+          }
+        }
+
+
         if (fldDefs.numRepFields > 0)
         {
           int repCount = 0;
@@ -315,7 +324,7 @@ public class N2KPacket
       if (fldDefArray != null)
       {
         Trace.normal("PGN " + pgn + " has " + fldDefs.numBaseFields + 
-                     " base fields, plus " + fldDefs.numRepFields + " repeating");
+                     " base fields, plus " + fldDefs.RepeatingFieldSetSize + " repeating");
 
         fields = new N2KField[fldDefs.numBaseFields];
         for (int i = 0; i < fldDefs.numBaseFields; i++)
@@ -389,6 +398,9 @@ public class N2KPacket
     N2KFieldDef fd = fld.fieldDef;
     byte[] bytes = null;
     int off;
+
+    int bitLength = fld.getBitLength();
+
     switch (fd.type)
     {
       case STRING:
@@ -404,10 +416,10 @@ public class N2KPacket
         }
         bytes = str.getBytes();
         int copylen = bytes.length;
-        if (copylen > fd.bitLength/8)
+        if (copylen > bitLength/8)
         {
           Trace.error("String too long - truncating");
-          copylen = fd.bitLength/8;
+          copylen = bitLength/8;
         }
 
         off = hdrlen + nextBitOffset/8;
@@ -415,7 +427,7 @@ public class N2KPacket
         {
           rawBytes[off + i] = bytes[i];
         }
-        int len = fd.bitLength/8;
+        int len = bitLength/8;
         for (int i = copylen; i < len; i++)
         {
           rawBytes[off + i] = (byte)' ';
@@ -435,13 +447,13 @@ public class N2KPacket
           //                            {
           //                            Trace.alert("Next bit offset is "+ nextBitOffset);
           //                            }
-          insertBits(rawBytes, (hdrlen * 8) + nextBitOffset, fd.bitLength, fld.getLong());
+          insertBits(rawBytes, (hdrlen * 8) + nextBitOffset, bitLength, fld.getLong());
         }
         catch (Exception ex)
         {
           Trace.error("Error setting int in field " + fd.name + ":" + ex.getCause());
         }
-        nextBitOffset += fd.bitLength;
+        nextBitOffset += bitLength;
         //                              Trace.alert("After INT next bit offset is "+ nextBitOffset);
         break;
 
@@ -454,19 +466,19 @@ public class N2KPacket
           catch (Exception ex)
           {
             Trace.error("Error getting bytes to set in field " + fd.name + ":" + ex.getLocalizedMessage());
-            bytes = new byte[fd.bitLength/8];
+            bytes = new byte[bitLength/8];
           }
           len = bytes.length;
-          if (len > fd.bitLength/8)
+          if (len > bitLength/8)
           {
-            Trace.error("Bytes array of " + len + " too long - truncating to " + (fd.bitLength/8));
-            len = fd.bitLength/8;
+            Trace.error("Bytes array of " + len + " too long - truncating to " + (bitLength/8));
+            len = bitLength/8;
           }
           Trace.normal("Processing bytes of length " + len + " offset " + nextBitOffset/8 +
           		        " target length " + rawBytes.length);
           //Trace.alert("Next bit offset is "+ nextBitOffset);
           System.arraycopy(bytes, 0, rawBytes, hdrlen + nextBitOffset/8, len);
-          nextBitOffset += fd.bitLength;
+          nextBitOffset += bitLength;
           //                    Trace.alert("After bytes[] next bit offset is "+ nextBitOffset);
         }
         break;
@@ -773,7 +785,7 @@ public class N2KPacket
   public N2KField[] addRepSet()
   {
     N2KField[] repFields = null;
-    if (fldDefs.numRepFields == 0)
+    if (fldDefs.RepeatingFieldSetSize == 0)
     {
       Trace.error("Cannot add repeats to a non-repeating PGN");
     }
@@ -781,14 +793,14 @@ public class N2KPacket
     {
       if (repSet == null)
       {
-        repSet = new Vector<N2KField[]>();
+        repSet = new Vector<>();
       }
-      repFields = new N2KField[fldDefs.numRepFields];
+      repFields = new N2KField[fldDefs.RepeatingFieldSetSize];
       repSet.add(repFields);
       N2KFieldDef[] fldDefArray = fldDefs.fieldDefArray;
-      for (int j = 0; j < fldDefs.numRepFields; j++)
+      for (int j = 0; j < fldDefs.RepeatingFieldSetSize; j++)
       {
-        N2KFieldDef fd = fldDefArray[fldDefs.numBaseFields + j];
+        N2KFieldDef fd = fldDefArray[fldDefs.RepeatingFieldSetStartField - 1 + j];
         //Trace.debug("Processing repeating field " + fd.id);
         repFields[j] = new N2KField(fd);
       }

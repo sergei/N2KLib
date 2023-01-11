@@ -23,14 +23,20 @@ public class N2KPacketDef
   int totalLength = 0;
   int matchFields = 0;
   int numBaseFields;
-  public int numRepFields;
+  int numRepFields = 0;
+  public int RepeatingFieldSetStartField;
+  public int RepeatingFieldSetSize;
+  public int RepeatingFieldSetCountField;
 
   public N2KPacketDef(int numDefs, PGNInfo pgnInfo)
   {
     fieldDefArray = new N2KFieldDef[numDefs];
     this.pgnInfo = pgnInfo;
-    this.numRepFields = pgnInfo.RepeatingFields;
-    numBaseFields = numDefs - numRepFields;
+    this.RepeatingFieldSetStartField = pgnInfo.RepeatingFieldSetStartField;
+    this.RepeatingFieldSetSize = pgnInfo.RepeatingFieldSetSize;
+    this.RepeatingFieldSetCountField = pgnInfo.RepeatingFieldSetCountField;
+    // Assuming one set of repeating fields at the end of message
+    numBaseFields = numDefs - pgnInfo.RepeatingFieldSetSize;
   }
 
   void setLength(int length)

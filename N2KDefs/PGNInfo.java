@@ -1,12 +1,14 @@
 package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs;
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 
-@JsonIgnoreProperties({"Type", "Missing",
-        "RepeatingFieldSet1Size", "RepeatingFieldSet1StartField", "RepeatingFieldSet1CountField",
+@JsonIgnoreProperties({
+        "Type", "Missing",
         "RepeatingFieldSet2Size", "RepeatingFieldSet2StartField", "RepeatingFieldSet2CountField"
 })
 public class PGNInfo 
@@ -16,12 +18,21 @@ public class PGNInfo
     public String Description;
     public boolean Complete;
     public int Length;
-    public int RepeatingFields;
+
+    @JsonProperty("RepeatingFieldSet1StartField")
+    public int RepeatingFieldSetStartField;
+
+    @JsonProperty("RepeatingFieldSet1Size")
+    public int RepeatingFieldSetSize;
+
+    @JsonProperty("RepeatingFieldSet1CountField")
+    public int RepeatingFieldSetCountField;
 
     @JsonProperty("Fields")
     public List<PGNField> pgnFields;
 
 
+  @NonNull
   public String toString()
   {
     int size = 0;
@@ -31,7 +42,10 @@ public class PGNInfo
     }
     return("PGN:" + PGN + " Id:" + Id + " Description:" + Description + 
            " Complete:" + Complete + " Length:" + Length + 
-           " RepeatingFields:" + RepeatingFields + " Field count:" + size); 
+           " RepeatingFieldSetStartField:" + RepeatingFieldSetStartField +
+           " RepeatingFieldSetSize:" + RepeatingFieldSetSize +
+           " RepeatingFieldSetCountField:" + RepeatingFieldSetCountField +
+            " Field count:" + size);
   }
 }
 
