@@ -8,16 +8,24 @@ import java.util.List;
 
 
 @JsonIgnoreProperties({
-        "Type", "Missing",
+        "Missing",
         "RepeatingFieldSet2Size", "RepeatingFieldSet2StartField", "RepeatingFieldSet2CountField"
 })
 public class PGNInfo 
 {
+    public enum PGNType{
+        Single,
+        Fast,
+        ISO
+    };
+
     public int PGN;
     public String Id;
     public String Description;
     public boolean Complete;
     public int Length;
+
+    public PGNType Type;
 
     @JsonProperty("RepeatingFieldSet1StartField")
     public int RepeatingFieldSetStartField;

@@ -131,7 +131,7 @@ public class N2KField
       case LENSTRING:
       case LENCTRLSTRING:
       case ENCODED:
-        Trace.alert(flddef.type + "Not implemented yet");
+        Trace.alert(flddef.type + " not implemented yet");
         isValid = false;
         break;
       default:

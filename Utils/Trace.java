@@ -23,7 +23,7 @@ import timber.log.Timber;
 public final class Trace
 {
   static String[] classes = new String[]{}; //"ActisenseTransport"};
-  static public int level = 4;
+  static public int level = 0;
   static public String[] fileList = {};
   static public boolean reclist = false;
   static BufferedOutputStream trcFile = null;
@@ -78,6 +78,10 @@ public final class Trace
       prtln(txt);
     }
     log(txt);
+  }
+
+  public static void log(String logtext) {
+    Timber.e("%s", logtext);
   }
 
   static private String hexdata(String txt, byte[] bytes, int off, int length)
@@ -152,19 +156,4 @@ public final class Trace
     ex.printStackTrace();
   }
 
-  public static void log(String logtext)
-  {
-    try
-    {
-      if (logFile == null)
-      {
-        logFile = new BufferedOutputStream(new FileOutputStream(Utils.getHomePath() +"errors.txt"));
-      }
-      logFile.write(logtext.getBytes());
-    }
-    catch (Exception ex)
-    {
-      Trace.error("Failed to write to log file " + ex.getStackTrace());
-    }
-  }
 }

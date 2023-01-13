@@ -21,4 +21,9 @@ public class MultivaluedHashMap<K, V> {
     public List<V> get(K key) {
         return delegate.get(key);
     }
+
+    public void clear(K key){
+        LinkedList<V> l = new LinkedList<>();
+        delegate.put(key, l);
+    }
 }
