@@ -54,7 +54,7 @@ public class Utils
 
   public static int getShort(byte[] input, int off)
   {
-    return(((int)unsignedByte(input[off + 1]) * 256) + (int)Utils.unsignedByte(input[off]));
+    return((input[off + 1] << 8) + Utils.unsignedByte(input[off]));
   }
 
   public static int getInt(byte[] input, int off, int numbytes)
