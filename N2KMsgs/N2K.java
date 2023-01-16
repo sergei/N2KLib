@@ -8496,7 +8496,7 @@ public final static int SciWaterCalibration_pgn = 130901;
     Field 5: PitchOffset, 2 bytes 0xfffe - restore default 0xFFFF - leave unchanged
     Field 6: RollOffset, 2 bytes 0xfffe - restore default 0xFFFF - leave unchanged
  */
-  public final static int SciImuCalibration_pgn = 130900;
+  public final static int SciImuCalibration_pgn = 130902;
   public final static class SciImuCalibration {
     // SCI
     public final static int manufacturerCode = 0;
