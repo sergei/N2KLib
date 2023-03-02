@@ -12,14 +12,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
+package com.santacruzinstruments.N2KLib.N2KLib;
 import java.util.Arrays;
 
 //import javax.xml.bind.DatatypeConverter;
 
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.*;
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Trace;
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Utils;
+import com.santacruzinstruments.N2KLib.N2KDefs.*;
+import com.santacruzinstruments.N2KLib.Utils.Trace;
+import com.santacruzinstruments.N2KLib.Utils.Utils;
 
 /**
  * An N2KPacket is made up of N2KFields. 

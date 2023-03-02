@@ -1,4 +1,4 @@
-package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KMsgs;
+package com.santacruzinstruments.N2KLib.N2KMsgs;
 
 public class N2K
 {

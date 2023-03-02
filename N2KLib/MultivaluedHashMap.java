@@ -1,4 +1,4 @@
-package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
+package com.santacruzinstruments.N2KLib.N2KLib;
 
 import java.util.HashMap;
 import java.util.LinkedList;

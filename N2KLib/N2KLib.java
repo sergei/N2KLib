@@ -12,14 +12,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
+package com.santacruzinstruments.N2KLib.N2KLib;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNDefinitions;
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNField;
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KDefs.PGNInfo;
+import com.santacruzinstruments.N2KLib.N2KDefs.PGNDefinitions;
+import com.santacruzinstruments.N2KLib.N2KDefs.PGNField;
+import com.santacruzinstruments.N2KLib.N2KDefs.PGNInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils.Trace;
+import com.santacruzinstruments.N2KLib.Utils.Trace;
 
 import java.io.IOException;
 import java.io.InputStream;

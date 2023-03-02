@@ -12,7 +12,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.N2KLib;
+package com.santacruzinstruments.N2KLib.N2KLib;
 
 public class N2KTypeException extends Exception
 {

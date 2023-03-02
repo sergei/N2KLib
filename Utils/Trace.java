@@ -12,7 +12,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with N2KLib.  If not, see <https://www.gnu.org/licenses/>.
 */
-package com.santacruzinstruments.scicalibrator.nmea2000.N2KLib.Utils;
+package com.santacruzinstruments.N2KLib.Utils;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -23,7 +23,7 @@ import timber.log.Timber;
 public final class Trace
 {
   static String[] classes = new String[]{}; //"ActisenseTransport"};
-  static public int level = 0;
+  static public int level = 2;
   static public String[] fileList = {};
   static public boolean reclist = false;
   static BufferedOutputStream trcFile = null;
